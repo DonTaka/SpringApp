@@ -39,6 +39,13 @@ public class User {
         this.email = email;
     }
 
-    
+    @Override
+    public String toString() {
+        String output="";
+        output += "Username: " + username + "\n";
+        output += "Password: " + password + "\n";
+        output += "Email: " + email + "\n";
+        return output;
+    }
 
 }
