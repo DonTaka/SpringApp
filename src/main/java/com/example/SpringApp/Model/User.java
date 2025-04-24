@@ -45,6 +45,7 @@ public class User {
         output += "Username: " + username + "\n";
         output += "Password: " + password + "\n";
         output += "Email: " + email + "\n";
+        output +=  "\n";
         return output;
     }
 
