@@ -7,20 +7,39 @@ import com.example.SpringApp.Model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Users {
+public class UsersRepository {
     //Clase Arreglo de Usuarios
     //ArrayList
     private List<User> users = new ArrayList<User>();
 
-    public Users() {
-
+    public UsersRepository() {
+        users.add(new User("User1","Password1","Correo@Test.com"));
+        users.add(new User("User2","Password2","CorreoTest.com"));
+        users.add(new User("User3","Password3","CorreoTest.com"));
     }
 
     //CRUD
 
-    public void addUser(User user) {
+    public String addUser(String username, String password, String email) {
+        User user = new User(username, password, email);
         users.add(user);
-        System.out.println("Agregado con exito");
+        return "Agregado con exito";
+    }
+
+    public String getUsers(){
+        String output="";
+
+        for(User u:users){
+            output+= "Nombre Usuario: "+u.getUsername()+"\n";
+            output+= "Contraseña: "+u.getPassword()+"\n";
+            output+= "Correo Usuario: "+u.getEmail()+"\n";
+        }
+
+        if(output.length()>0){
+            return output;
+        }else{
+            return "No se encuentran usuarios";
+        }
     }
 
     public String getUser(String userName) {

@@ -1,5 +1,6 @@
 package com.example.SpringApp.Model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
