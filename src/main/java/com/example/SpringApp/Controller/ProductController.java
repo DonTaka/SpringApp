@@ -13,12 +13,28 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public String getProducts(){
+    public String getProducts() {
         return productService.listarProductos();
     }
 
     @PostMapping
-    public String postProduct(@RequestBody Product product){
+    public String postProduct(@RequestBody Product product) {
         return productService.agregarProducto(product);
     }
+
+    @GetMapping("/{id}")
+    public String getProductById(@PathVariable int id) {
+        return productService.obtenerProductoPorID(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProductById(@PathVariable int id) {
+        return productService.eliminarProducto(id);
+    }
+
+    @PutMapping("/{id}")
+    public String updateProductById(@PathVariable int id, @RequestBody Product product) {
+        return productService.actualizarProducto(id, product);
+    }
+
 }
