@@ -73,6 +73,7 @@
             <artifactId>osdt_cert</artifactId>
             <version>19.8.0.0</version>
         </dependency>
+
     </dependencies>
 
     <build>
