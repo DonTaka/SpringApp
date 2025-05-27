@@ -8,6 +8,7 @@ class SpringAppApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
