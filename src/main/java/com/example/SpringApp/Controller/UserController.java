@@ -7,7 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -20,27 +24,52 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Obtener Usuarios",description = "Obtiene la lista de usuarios existentes en el sistema")
     @ApiResponse(responseCode="200",description = "Consulta Exitosa")
-    public String getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> lista = userService.getUsers();
+        if (!lista.isEmpty()) {
+            return new ResponseEntity<>(lista, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
-    public String addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        userService.addUser(user);
+        if (userService.getuser(user.getId()).isPresent()) {
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable int id) {
-        return userService.getuser(id);
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        if (userService.getuser(id).isPresent()) {
+            User us = userService.getuser(id).get();
+            return new ResponseEntity<>(us, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable int id) {
-        return userService.deleteUser(id);
+    public ResponseEntity<Integer> deleteUserById(@PathVariable int id) {
+        if (userService.getuser(id).isPresent()) {
+            userService.deleteUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")
-    public String putUserById(@PathVariable int id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public ResponseEntity<User> putUserById(@PathVariable int id, @RequestBody User user) {
+        if (userService.getuser(id).isPresent()) {
+            userService.updateUser(id, user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
