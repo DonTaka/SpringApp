@@ -2,17 +2,22 @@ package com.example.SpringApp.Controller;
 
 import com.example.SpringApp.Model.Product;
 import com.example.SpringApp.Services.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
+@Tag(name="API Productos ",description = "Servicios disponibilizados para gestionar productos")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
     @GetMapping
+    @Operation(summary = "Obtener lista de productos",description = "Servicio de consulta productos disponibles en entorno")
     public String getProducts() {
         return productService.listarProductos();
     }
