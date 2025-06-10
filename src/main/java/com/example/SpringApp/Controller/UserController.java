@@ -58,9 +58,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "No se encuentran datos")
     })
     @Parameter(description = "El ID del usuario", example = "123")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
+    public ResponseEntity<EntityModel<User>> getUserById(@PathVariable int id) {
         if (userService.getuser(id).isPresent()) {
-            return new ResponseEntity<>(userService.getuser(id).get(), HttpStatus.OK);
+            User user = userService.getuser(id).get();
+            return new ResponseEntity<>(assembler.toModel(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
