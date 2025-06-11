@@ -12,18 +12,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/users")
@@ -59,8 +55,8 @@ public class UserController {
     })
     @Parameter(description = "El ID del usuario", example = "123")
     public ResponseEntity<EntityModel<User>> getUserById(@PathVariable int id) {
-        if (userService.getuser(id).isPresent()) {
-            User user = userService.getuser(id).get();
+        if (userService.getUser(id).isPresent()) {
+            User user = userService.getUser(id).get();
             return new ResponseEntity<>(assembler.toModel(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,10 +71,10 @@ public class UserController {
                             schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<EntityModel<User>> addUser(@RequestBody User user) {
         userService.addUser(user);
-        if (userService.getuser(user.getId()).isPresent()) {
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        if (userService.getUser(user.getId()).isPresent()) {
+            return new ResponseEntity<>(assembler.toModel(user), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -92,7 +88,7 @@ public class UserController {
     })
     @Parameter(description = "El ID del usuario", example = "123")
     public ResponseEntity<Void> deleteUserById(@PathVariable int id) {
-        if (userService.getuser(id).isPresent()) {
+        if (userService.getUser(id).isPresent()) {
             userService.deleteUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -110,7 +106,7 @@ public class UserController {
     })
     @Parameter(description = "El ID del usuario", example = "123")
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
-        if (userService.getuser(id).isPresent()) {
+        if (userService.getUser(id).isPresent()) {
             userService.updateUser(id, user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {

@@ -66,7 +66,7 @@ class ProductTests {
             //perform nos permite ejecutar dichas llamadas y luego ingresamos el metodo HTTP correspondiente
             //adicionalmente podemos agregar parametros u variables adicionales de ser requerido
             //Finalmente andExcept nos permite indicar que esperamos de dicha respuesta HTTP
-            //Tanto codigo como contenido
+            //Tanto codigo como contenidoring mo
             mockMvc.perform(get("/products"))
                     .andExpect(status().isOk())
                     .andExpect(content().string("Lista completa"));
